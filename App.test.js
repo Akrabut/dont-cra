@@ -1,29 +1,28 @@
-const puppeteer = require('puppeteer')
+const timeout = 15000
 
 describe('Main container', () => {
-  test('h1 loads correctly', async () => {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
+  let page
 
+  beforeEach(async () => {
+    page = await global.__BROWSER__.newPage()
     await page.goto('http://localhost:9000/')
+  }, timeout)
+
+  afterEach(async () => {
+    page.close()
+  })
+
+  test('h1 loads correctly', async () => {
     await page.waitForSelector('h1')
 
     const html = await page.$eval('h1', e => e.innerHTML)
     expect(html).toBe('Hi')
-
-    browser.close()
-  }, 16000)
+  }, timeout)
 
   test('There are four buttons', async () => {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-
-    await page.goto('http://localhost:9000/')
     await page.waitForSelector('h1')
 
     const buttons = await page.$$('button')
     expect(buttons.length).toBe(4)
-
-    browser.close()
-  }, 16000)
+  }, timeout)
 })
