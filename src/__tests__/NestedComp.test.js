@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime"
 const puppeteer = require('puppeteer')
 
 describe('Nested button', () => {
